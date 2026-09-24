@@ -124,7 +124,7 @@ func TestConcurrentBootstrapResolve(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	secondStore, err := adapter.New(db)
+	secondStore, err := adapter.New(peerDB(t, db))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -201,7 +201,7 @@ func TestBootstrapCloseRace(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	secondStore, err := adapter.New(db)
+	secondStore, err := adapter.New(peerDB(t, db))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -305,4 +305,14 @@ func peerDB(t *testing.T, db *sql.DB) *sql.DB {
 	peer.SetMaxOpenConns(integrationMaxOpenConns)
 	t.Cleanup(func() { peer.Close() })
 	return peer
+}
+
+func processDSN(t *testing.T, db *sql.DB) string {
+	t.Helper()
+	var seq int
+	var name, path string
+	if err := db.QueryRow("PRAGMA database_list").Scan(&seq, &name, &path); err != nil {
+		t.Fatal(err)
+	}
+	return "file:" + path + "?_busy_timeout=10000&_journal_mode=WAL&_synchronous=FULL"
 }

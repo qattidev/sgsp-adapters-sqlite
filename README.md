@@ -32,7 +32,7 @@ creates or migrates tables. Storage errors propagate without memory fallback.
 Assignments are keyed by application ID and group key, with a version invariant.
 Assignment never replaces a winner or reopens a closed group. Closure checks
 both owner ID and incarnation in the transaction and commits before returning.
-Tests cover independent pools, competing owners, closure races, version and
+Tests cover independent pools and processes, competing owners, closure races, version and
 owner rejection, cancellation, storage outages, reopening, and bootstrap owner
 availability/restart behavior.
 
