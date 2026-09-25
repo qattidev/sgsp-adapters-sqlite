@@ -74,3 +74,9 @@ database for durable storage or multi-connection tests.
 Closed assignments remain persisted. Destructive Down migrations are only for
 disposable databases. Test databases are real temporary files and require no
 external service.
+
+## License
+
+Copyright 2026 Johannes Sarpola.
+
+SGSP sqlite assignment store is licensed under the [Apache License, Version 2.0](LICENSE).
